@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { FormComponent } from './form/form.component';
 import { Programador } from './programador';
 import { ProgService } from './prog.service';
@@ -13,7 +12,10 @@ import { ProgService } from './prog.service';
 })
 export class AppComponent implements OnInit {
   lstProgramadores: Programador[] = [];
-  progEdit: Programador = new Programador();
+
+  programadorToEdit : Programador | null = null;
+  isEditMode : boolean = false;
+
 
   private progService = inject(ProgService);
   ngOnInit(): void {
@@ -25,15 +27,30 @@ export class AppComponent implements OnInit {
     this.lstProgramadores = this.progService.getProgamadores();
   }
 
-  // pushProg(p: Programador) {
-  //   this.lstProgramadores.push(p);
-  // }
   eliminarProgramador(index: number) {
     //this.lstProgramadores.splice(index, 1);
     this.progService.delete(index);
     this.getProgramadores();
   }
-  editar(index: number) {
-    //TODO:
+  editar(progToEdit: Programador) {
+    console.log('editar. progToEdit ', progToEdit)
+ 
+    this.programadorToEdit = {...progToEdit}
+    console.log('progToEdit ', this.programadorToEdit)
+    this.isEditMode = true;
+
   }
+
+  handleFormSubmit(updatedProg : Programador)
+  {
+    if(this.isEditMode)
+    {
+      this.progService.editProg(this.programadorToEdit, updatedProg);
+      this.isEditMode = false;
+    } else {
+      this.progService.addProg(updatedProg);
+    }
+    this.programadorToEdit = null;
+  }
+
 }

@@ -21,28 +21,35 @@ import { ProgService } from '../prog.service';
   //providers:[ProgService]
 })
 export class FormComponent implements OnChanges {
-  @Input() progEdit = new Programador();
+  @Input() progToEdit : Programador | null = null; //Referencia al programador a ser editado
+  @Output() submittedForm = new EventEmitter<Programador>();
 
-  prog: Programador = new Programador();
+  prog: Programador = new Programador(); //Almacena el estado actual del formulario
 
-  //constructor(private progService : ProgService) {}
-  private progService = inject(ProgService);
+  ngOnChanges(changes : SimpleChanges): void {
+    //TODO: validar que cambie el input progEdit para seguir el flujo de edición
+    if(changes['progToEdit'] && this.progToEdit)
+    {
+     this.prog = {... this.progToEdit};
+     console.log('Flujo de edicion, this.prog: ', this.prog)
+    }
+    
+  }
+
 
   listHabilidades: string[] = ['.Net', 'Java', 'Javascript', 'AWS'];
 
   habilidadSeleccionada: string = '';
-
-  //@Output() enviadoEmit = new EventEmitter<Programador>();
   sendForm(form: NgForm) {
-    //TODO:
+    
+
     if (form.valid) {
-      // this.enviadoEmit.emit(this.prog);
-     this.progService.addPush(this.prog);
-      this.prog = new Programador();
-      this.habilidadSeleccionada = '';
-      console.log(this.prog);
-    }
+     this.submittedForm.emit(this.prog)
+     this.resetForm();
+   
+    }  
   }
+
   agregarHabilidades() {
     if (!this.prog.habilidades.includes(this.habilidadSeleccionada))
       this.prog.habilidades.push(this.habilidadSeleccionada);
@@ -50,7 +57,10 @@ export class FormComponent implements OnChanges {
   eliminarHabilidades(index: number) {
     this.prog.habilidades.splice(index, 1);
   }
-  ngOnChanges(): void {
-    //TODO: completar con lo visto en clase
+
+  private resetForm(){
+    this.prog = new Programador();
+    this.habilidadSeleccionada = "";
   }
+  
 }

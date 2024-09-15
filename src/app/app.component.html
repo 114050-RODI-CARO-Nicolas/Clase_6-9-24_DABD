@@ -1,4 +1,4 @@
-<app-form ></app-form>
+<app-form [progToEdit]="programadorToEdit" (submittedForm)="handleFormSubmit($event)"></app-form>
 
 @if(lstProgramadores.length > 0){
 <hr>
@@ -22,9 +22,9 @@
       <td>{{prog.contacto.email}}</td>
       <td>{{prog.contacto.redSocial}}</td>
       <td><button type="button" class="btn btn-danger" (click)="eliminarProgramador($index)">-</button>
-        <!--TODO:
-        <button (click)="editar($index)">Editar</button>        
-        -->
+      
+        <button (click)="editar(prog)">Editar</button>        
+     
       </td>
     </tr>
     }

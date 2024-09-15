@@ -1,0 +1,11 @@
+---15-09-24---- 
+
+
+Me cuesta implementar la edicion de un objeto reutilizando el formulario de ingreso.
+Me sigue dando -1 el index en el prog.service
+Tengo la sospecha de que el problema radica en que el objeto que mando como "referencia" a editar
+se termina modificando en el medio y por lo tanto ya a la altura de service no lo reconoce y por eso
+no lo encuentra.
+
+Se podría probar enviando index para editar en vez del objeto.
+Pero es una idea.
