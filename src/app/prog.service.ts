@@ -20,16 +20,11 @@ export class ProgService {
   }
 
 
-  editProg( progToEditParam : Programador | null, updatedProg: Programador)
+  editProg( progIndex : number, updatedProg: Programador)
   {
-    console.log('service editProg ', progToEditParam)
-    const index = this.lstProgramadores.findIndex(p => p === progToEditParam);
-    console.log('progService index const ', index )
-    if(index!==-1)
-    {
-      this.lstProgramadores[index] = {...updatedProg};
-      console.log('progService lstProgramadores ', this.lstProgramadores)
-    }
+    console.log('progIndex at ProgService.editProg() ', progIndex)
+    
+   this.lstProgramadores[progIndex]=updatedProg;
     
   }
 

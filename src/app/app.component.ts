@@ -11,9 +11,12 @@ import { ProgService } from './prog.service';
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
+  
   lstProgramadores: Programador[] = [];
 
+
   programadorToEdit : Programador | null = null;
+  indexProgramadorToEdit : number = 0;
   isEditMode : boolean = false;
 
 
@@ -35,8 +38,10 @@ export class AppComponent implements OnInit {
   editar(progToEdit: Programador) {
     console.log('editar. progToEdit ', progToEdit)
  
-    this.programadorToEdit = {...progToEdit}
-    console.log('progToEdit ', this.programadorToEdit)
+    
+    this.indexProgramadorToEdit = this.lstProgramadores.findIndex(p=> p === progToEdit ); //Se captura el indice del objeto original a editar 
+    this.programadorToEdit = {...progToEdit} // Se asigna el valor de este objeto del componente para que lo reciba app-form como input y pueda editarse
+    console.log('this.indexProgramadorToEdit at app.editar() ', this.indexProgramadorToEdit);
     this.isEditMode = true;
 
   }
@@ -45,7 +50,8 @@ export class AppComponent implements OnInit {
   {
     if(this.isEditMode)
     {
-      this.progService.editProg(this.programadorToEdit, updatedProg);
+      //Los datos "nuevos" del objeto programador para actualizarse provienen del evento submittedForm que es emitido por el componente app-form 
+      this.progService.editProg(this.indexProgramadorToEdit, updatedProg);
       this.isEditMode = false;
     } else {
       this.progService.addProg(updatedProg);

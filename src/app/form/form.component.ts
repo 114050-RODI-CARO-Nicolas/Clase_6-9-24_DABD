@@ -1,7 +1,7 @@
 import {
   Component,
   EventEmitter,
-  inject,
+
   Input,
   OnChanges,
   Output,
@@ -9,8 +9,8 @@ import {
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Programador } from '../programador';
-import { CommonModule, NgTemplateOutlet } from '@angular/common';
-import { ProgService } from '../prog.service';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-form',
@@ -21,16 +21,16 @@ import { ProgService } from '../prog.service';
   //providers:[ProgService]
 })
 export class FormComponent implements OnChanges {
-  @Input() progToEdit : Programador | null = null; //Referencia al programador a ser editado
+  @Input() progToBeEdited : Programador | null = null; //Referencia al programador a ser editado
   @Output() submittedForm = new EventEmitter<Programador>();
 
   prog: Programador = new Programador(); //Almacena el estado actual del formulario
 
   ngOnChanges(changes : SimpleChanges): void {
     //TODO: validar que cambie el input progEdit para seguir el flujo de edición
-    if(changes['progToEdit'] && this.progToEdit)
+    if(changes['progToBeEdited'] && this.progToBeEdited)
     {
-     this.prog = {... this.progToEdit};
+     this.prog = {... this.progToBeEdited};
      console.log('Flujo de edicion, this.prog: ', this.prog)
     }
     
@@ -45,8 +45,8 @@ export class FormComponent implements OnChanges {
 
     if (form.valid) {
      this.submittedForm.emit(this.prog)
-     this.resetForm();
-   
+
+      this.resetForm();
     }  
   }
 

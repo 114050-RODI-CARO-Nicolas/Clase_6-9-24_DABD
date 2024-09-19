@@ -9,3 +9,11 @@ no lo encuentra.
 
 Se podría probar enviando index para editar en vez del objeto.
 Pero es una idea.
+
+
+
+------16-09-24----
+
+Se acomodó la edicion pero persiste el bug de que quedan los mensajes de error en los campos.
+Probé con form.reset pero eso causa que se pierde referencia al objeto Programador  (o se borre) y por lo tanto lo enviando
+en el submit sea un objeto con todos los campos en null.
